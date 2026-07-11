@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">
+                Dashboard
+            </h2>
+
+            <p class="text-muted">
+                Welcome to AI Invoice Processing System
+            </p>
+        </div>
+
+        <a href="/upload" class="btn btn-primary">
+            <i class="fa-solid fa-upload"></i>
+            Upload Invoice
+        </a>
+
+    </div>
+
+    <!-- Statistics Cards -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Invoices
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ data.total_invoices }}
+                    </h2>
+
+                    <i class="fa-solid fa-file-invoice fa-3x text-primary float-end"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Vendors
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ data.total_vendors }}
+                    </h2>
+
+                    <i class="fa-solid fa-building fa-3x text-success float-end"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Monthly Expense
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+                        {{ data.monthly_expense }}
+                    </h2>
+
+                    <i class="fa-solid fa-indian-rupee-sign fa-3x text-danger float-end"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Pending
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+                        {{ data.pending }}
+                    </h2>
+
+                    <i class="fa-solid fa-clock fa-3x text-warning float-end"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Charts -->
+
+    <div class="row mt-5">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow rounded-4">
+
+                <div class="card-header bg-white">
+
+                    <h5>
+                        Monthly Expenses
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="expenseChart" height="120"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow rounded-4">
+
+                <div class="card-header bg-white">
+
+                    <h5>
+                        Invoice Status
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="statusChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Invoices -->
+
+    <div class="card shadow rounded-4 mt-5">
+
+        <div class="card-header bg-white">
+
+            <h5>
+                Recent Invoices
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Vendor</th>
+
+                        <th>Invoice</th>
+
+                        <th>Date</th>
+
+                        <th>Amount</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>ABC Pvt Ltd</td>
+
+                        <td>INV1001</td>
+
+                        <td>01-Jul-2026</td>
+
+                        <td>₹25,000</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+                                Paid
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>XYZ Enterprises</td>
+
+                        <td>INV1002</td>
+
+                        <td>03-Jul-2026</td>
+
+                        <td>₹18,000</td>
+
+                        <td>
+
+                            <span class="badge bg-warning text-dark">
+                                Pending
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Tech Solutions</td>
+
+                        <td>INV1003</td>
+
+                        <td>05-Jul-2026</td>
+
+                        <td>₹45,000</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+                                Paid
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const expenseChart = new Chart(document.getElementById("expenseChart"), {
+
+        type: 'bar',
+
+        data: {
+
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+
+            datasets: [{
+
+                label: "Expenses",
+
+                data: [12000, 18000, 24000, 15000, 30000, 28000],
+
+                backgroundColor: "#0d6efd"
+
+            }]
+
+        }
+
+    });
+
+    const statusChart = new Chart(document.getElementById("statusChart"), {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: ["Paid", "Pending"],
+
+            datasets: [{
+
+                data: [230, 15],
+
+                backgroundColor: ["green", "orange"]
+
+            }]
+
+        }
+
+    });
+
+</script>
+
+{% endblock %}

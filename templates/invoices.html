@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Invoices{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">Invoice Management</h2>
+            <p class="text-muted">View, Search and Manage All Invoices</p>
+        </div>
+
+        <a href="/upload" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            New Invoice
+        </a>
+
+    </div>
+
+    <!-- Search & Filter -->
+
+    <div class="card shadow rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search Vendor or Invoice">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <select class="form-select">
+
+                        <option>All Status</option>
+                        <option>Paid</option>
+                        <option>Pending</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <input type="date" class="form-control">
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <button class="btn btn-success w-100">
+
+                        <i class="fa-solid fa-filter"></i>
+
+                        Filter
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Invoice Table -->
+
+    <div class="card shadow rounded-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Invoice List
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle" id="invoiceTable">
+
+                    <thead class="table-primary">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Vendor</th>
+
+                            <th>Invoice No</th>
+
+                            <th>Date</th>
+
+                            <th>Amount</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for invoice in invoices %}
+
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ invoice.vendor }}</td>
+
+                            <td>{{ invoice.invoice_no }}</td>
+
+                            <td>{{ invoice.date }}</td>
+
+                            <td>{{ invoice.amount }}</td>
+
+                            <td>
+
+                                {% if loop.index % 2 == 0 %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Pending
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-success">
+
+                                    Paid
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <button class="btn btn-sm btn-info">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                </button>
+
+                                <button class="btn btn-sm btn-warning">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </button>
+
+                                <button class="btn btn-sm btn-danger">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("keyup", function () {
+
+        let value = this.value.toLowerCase();
+
+        let rows = document.querySelectorAll("#invoiceTable tbody tr");
+
+        rows.forEach(function (row) {
+
+            let text = row.innerText.toLowerCase();
+
+            row.style.display = text.includes(value) ? "" : "none";
+
+        });
+
+    });
+
+</script>
+
+{% endblock %}

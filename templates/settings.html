@@ -1,0 +1,483 @@
+{% extends "base.html" %}
+
+{% block title %}Settings | AI Invoice System{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-gear text-primary me-2"></i>
+                Settings
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage your AI Invoice Processing System
+            </p>
+
+        </div>
+
+    </div>
+
+    <form method="POST">
+
+        <div class="row g-4">
+
+            <!-- LEFT COLUMN -->
+            <div class="col-lg-6">
+
+                <!-- Company Card -->
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+
+                                <i class="fa-solid fa-building text-primary"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold mb-0">
+                                    Company Information
+                                </h5>
+
+                                <small class="text-muted">
+                                    Basic company details
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Company Name -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Company Name
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-building"></i>
+                                </span>
+
+                                <input type="text" class="form-control" name="company_name"
+                                    value="{{ settings.company_name }}" placeholder="ABC Pvt Ltd" required>
+
+                            </div>
+
+                        </div>
+
+                        <!-- GST -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                GST Number
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-receipt"></i>
+                                </span>
+
+                                <input type="text" class="form-control" name="gst" value="{{ settings.gst_number }}"
+                                    placeholder="22AAAAA0000A1Z5">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Email -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Company Email
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+
+                                <input type="email" class="form-control" name="company_email"
+                                    value="{{ settings.company_email }}" placeholder="company@email.com">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Phone -->
+
+                        <div>
+
+                            <label class="form-label fw-semibold">
+                                Company Phone
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-phone"></i>
+                                </span>
+
+                                <input type="text" class="form-control" name="phone"
+                                    value="{{ settings.company_phone }}" placeholder="+91 XXXXX XXXXX">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="col-lg-6">
+
+                <!-- Invoice Settings -->
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+
+                                <i class="fa-solid fa-file-invoice text-success"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold mb-0">
+                                    Invoice Settings
+                                </h5>
+
+                                <small class="text-muted">
+                                    Configure default invoice options
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Currency -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Currency
+                            </label>
+
+                            <select class="form-select" name="currency">
+
+                                <option value="INR" {% if settings.currency=="INR" %} selected {% endif %}>
+                                    INR (₹)
+                                </option>
+
+                                <option value="USD" {% if settings.currency=="USD" %} selected {% endif %}>
+                                    USD ($)
+                                </option>
+
+                                <option value="EUR" {% if settings.currency=="EUR" %} selected {% endif %}>
+                                    EUR (€)
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Invoice Status -->
+
+                        <div>
+
+                            <label class="form-label fw-semibold">
+                                Default Invoice Status
+                            </label>
+
+                            <select class="form-select" name="status">
+
+                                <option value="Pending" {% if settings.default_status=="Pending" %} selected {% endif
+                                    %}>
+                                    Pending
+                                </option>
+
+                                <option value="Paid" {% if settings.default_status=="Paid" %} selected {% endif %}>
+                                    Paid
+                                </option>
+
+                                <option value="Cancelled" {% if settings.default_status=="Cancelled" %} selected {%
+                                    endif %}>
+                                    Cancelled
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Second Row -->
+        <div class="row g-4 mt-1">
+
+            <!-- AI OCR -->
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3">
+
+                                <i class="fa-solid fa-robot text-warning"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold mb-0">
+                                    AI OCR Configuration
+                                </h5>
+
+                                <small class="text-muted">
+                                    Configure invoice extraction engine
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- OCR -->
+
+                        <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    Enable OCR Engine
+                                </div>
+
+                                <small class="text-muted">
+                                    Detect text from uploaded invoices
+                                </small>
+
+                            </div>
+
+                            <div class="form-check form-switch">
+
+                                <input class="form-check-input" type="checkbox" name="ocr_enabled" {% if
+                                    settings.ocr_enabled %}checked{% endif %}>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Auto Extract -->
+
+                        <div class="d-flex justify-content-between align-items-center py-3">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    Auto Extract Invoice Data
+                                </div>
+
+                                <small class="text-muted">
+                                    Automatically fill invoice fields
+                                </small>
+
+                            </div>
+
+                            <div class="form-check form-switch">
+
+                                <input class="form-check-input" type="checkbox" name="auto_extract" {% if
+                                    settings.auto_extract %}checked{% endif %}>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Notifications -->
+
+            <div class="col-lg-6">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3">
+
+                                <i class="fa-solid fa-bell text-info"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5 class="fw-bold mb-0">
+                                    Notifications
+                                </h5>
+
+                                <small class="text-muted">
+                                    Manage system notifications
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Email -->
+
+                        <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    Email Notifications
+                                </div>
+
+                                <small class="text-muted">
+                                    Receive important system emails
+                                </small>
+
+                            </div>
+
+                            <div class="form-check form-switch">
+
+                                <input class="form-check-input" type="checkbox" name="email_notifications" {% if
+                                    settings.email_notifications %}checked{% endif %}>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Invoice Alerts -->
+
+                        <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    Invoice Alerts
+                                </div>
+
+                                <small class="text-muted">
+                                    Notify when invoices are updated
+                                </small>
+
+                            </div>
+
+                            <div class="form-check form-switch">
+
+                                <input class="form-check-input" type="checkbox" name="invoice_notifications" {% if
+                                    settings.invoice_notifications %}checked{% endif %}>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Monthly Report -->
+
+                        <div class="d-flex justify-content-between align-items-center py-3">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    Monthly Reports
+                                </div>
+
+                                <small class="text-muted">
+                                    Receive monthly invoice summaries
+                                </small>
+
+                            </div>
+
+                            <div class="form-check form-switch">
+
+                                <input class="form-check-input" type="checkbox" name="monthly_report" {% if
+                                    settings.monthly_report %}checked{% endif %}>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer Buttons -->
+
+        <div class="sticky-bottom bg-white border-top mt-5 py-3">
+
+            <div class="d-flex justify-content-end">
+
+                <a href="/dashboard" class="btn btn-outline-secondary me-2">
+
+                    <i class="fa-solid fa-arrow-left me-2"></i>
+
+                    Back
+
+                </a>
+
+                <button type="reset" class="btn btn-outline-warning me-2">
+
+                    <i class="fa-solid fa-rotate-left me-2"></i>
+
+                    Reset
+
+                </button>
+
+                <button type="submit" class="btn btn-primary px-4">
+
+                    <i class="fa-solid fa-floppy-disk me-2"></i>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
