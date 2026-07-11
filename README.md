@@ -268,7 +268,7 @@ pip install -r requirements.txt
 
 # 👨‍💻 Author
 
-**Prachi Mehrotra**
+**Prachi Mehra**
 
 GitHub:
 https://github.com/mehprachi31
